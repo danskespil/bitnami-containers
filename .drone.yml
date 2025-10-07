@@ -1,0 +1,19 @@
+kind: template
+load: ds-generic-v2.star
+data:
+
+  components:
+    semver:
+      enabled: false
+
+  multiarch_build:
+    - name: confluence
+      platforms:
+        - os: linux
+          arch: amd64
+      settings:
+        DOCKERFILE: bitnami/redis/8.2/debian-12/Dockerfile
+        CONTEXT: bitnami/redis/8.2/debian-12/
+        TRIVY_SCAN: false
+        TAGS:
+          - 8.2.2
