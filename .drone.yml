@@ -28,3 +28,14 @@ data:
         TRIVY_SCAN: false
         TAGS:
           - 8.2.2
+
+    - name: mongodb
+      platforms:
+        - os: linux
+          arch: amd64
+      settings:
+        DOCKERFILE: bitnami/mongodb/8.2/debian-12/Dockerfile
+        CONTEXT: bitnami/mongodb/8.2/debian-12/
+        TRIVY_SCAN: false
+        TAGS:
+          - 8.2.1
