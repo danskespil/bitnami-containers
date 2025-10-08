@@ -17,3 +17,14 @@ data:
         TRIVY_SCAN: false
         TAGS:
           - 8.2.2
+
+    - name: redis-sentinel
+      platforms:
+        - os: linux
+          arch: amd64
+      settings:
+        DOCKERFILE: bitnami/redis-sentinel/8.2/debian-12/Dockerfile
+        CONTEXT: bitnami/redis-sentinel/8.2/debian-12/
+        TRIVY_SCAN: false
+        TAGS:
+          - 8.2.2
