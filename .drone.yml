@@ -12,22 +12,22 @@ data:
         - os: linux
           arch: amd64
       settings:
-        DOCKERFILE: bitnami/redis/8.2/debian-12/Dockerfile
-        CONTEXT: bitnami/redis/8.2/debian-12/
+        DOCKERFILE: bitnami/redis/8.6/debian-12/Dockerfile
+        CONTEXT: bitnami/redis/8.6/debian-12/
         TRIVY_SCAN: false
         TAGS:
-          - 8.2.2
+          - 8.6.0
 
     - name: redis-sentinel
       platforms:
         - os: linux
           arch: amd64
       settings:
-        DOCKERFILE: bitnami/redis-sentinel/8.2/debian-12/Dockerfile
-        CONTEXT: bitnami/redis-sentinel/8.2/debian-12/
+        DOCKERFILE: bitnami/redis-sentinel/8.6/debian-12/Dockerfile
+        CONTEXT: bitnami/redis-sentinel/8.6/debian-12/
         TRIVY_SCAN: false
         TAGS:
-          - 8.2.2
+          - 8.6.0
 
     - name: mongodb
       platforms:
@@ -38,4 +38,4 @@ data:
         CONTEXT: bitnami/mongodb/8.2/debian-12/
         TRIVY_SCAN: false
         TAGS:
-          - 8.2.1
+          - 8.2.5
