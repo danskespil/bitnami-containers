@@ -1,4 +1,4 @@
-# Bitnami package for SonarQube&trade;
+# Bitnami Secure Image for SonarQube&trade;
 
 ## What is SonarQube&trade;?
 
@@ -15,27 +15,22 @@ docker run --name sonarqube bitnami/sonarqube:latest
 
 **Warning**: This quick setup is only intended for development environments. You are encouraged to change the insecure default credentials and check out the available configuration options in the [Environment Variables](#environment-variables) section for a more secure deployment.
 
-## ⚠️ Important Notice: Upcoming changes to the Bitnami Catalog
-
-Beginning August 28th, 2025, Bitnami will evolve its public catalog to offer a curated set of hardened, security-focused images under the new [Bitnami Secure Images initiative](https://news.broadcom.com/app-dev/broadcom-introduces-bitnami-secure-images-for-production-ready-containerized-applications). As part of this transition:
-
-- Granting community users access for the first time to security-optimized versions of popular container images.
-- Bitnami will begin deprecating support for non-hardened, Debian-based software images in its free tier and will gradually remove non-latest tags from the public catalog. As a result, community users will have access to a reduced number of hardened images. These images are published only under the “latest” tag and are intended for development purposes
-- Starting August 28th, over two weeks, all existing container images, including older or versioned tags (e.g., 2.50.0, 10.6), will be migrated from the public catalog (docker.io/bitnami) to the “Bitnami Legacy” repository (docker.io/bitnamilegacy), where they will no longer receive updates.
-- For production workloads and long-term support, users are encouraged to adopt Bitnami Secure Images, which include hardened containers, smaller attack surfaces, CVE transparency (via VEX/KEV), SBOMs, and enterprise support.
-
-These changes aim to improve the security posture of all Bitnami users by promoting best practices for software supply chain integrity and up-to-date deployments. For more details, visit the [Bitnami Secure Images announcement](https://github.com/bitnami/containers/issues/83267).
-
 ## Why use Bitnami Secure Images?
 
-- Bitnami Secure Images and Helm charts are built to make open source more secure and enterprise ready.
-- Triage security vulnerabilities faster, with transparency into CVE risks using industry standard Vulnerability Exploitability Exchange (VEX), KEV, and EPSS scores.
-- Our hardened images use a minimal OS (Photon Linux), which reduces the attack surface while maintaining extensibility through the use of an industry standard package format.
-- Stay more secure and compliant with continuously built images updated within hours of upstream patches.
-- Bitnami containers, virtual machines and cloud images use the same components and configuration approach - making it easy to switch between formats based on your project needs.
-- Hardened images come with attestation signatures (Notation), SBOMs, virus scan reports and other metadata produced in an SLSA-3 compliant software factory.
+Those are hardened, minimal CVE images built and maintained by Bitnami. Bitnami Secure Images are based on the cloud-optimized, security-hardened enterprise [OS Photon Linux](https://vmware.github.io/photon/). Why choose BSI images?
 
-Only a subset of BSI applications are available for free. Looking to access the entire catalog of applications as well as enterprise support? Try the [commercial edition of Bitnami Secure Images today](https://www.arrow.com/globalecs/uk/products/bitnami-secure-images/).
+- Hardened secure images of popular open source software with Near-Zero Vulnerabilities
+- Vulnerability Triage & Prioritization with VEX Statements, KEV and EPSS Scores
+- Compliance focus with FIPS, STIG, and air-gap options, including secure bill of materials (SBOM)
+- Software supply chain provenance attestation through in-toto
+- First class support for the internet’s favorite Helm charts
+
+Each image comes with valuable security metadata. You can view the metadata in [our public catalog here](https://app-catalog.vmware.com/bitnami/apps). Note: Some data is only available with [commercial subscriptions to BSI](https://bitnami.com/).
+
+![Alt text](https://github.com/bitnami/containers/blob/main/BSI%20UI%201.png?raw=true "Application details")
+![Alt text](https://github.com/bitnami/containers/blob/main/BSI%20UI%202.png?raw=true "Packaging report")
+
+If you are looking for our previous generation of images based on Debian Linux, please see the [Bitnami Legacy registry](https://hub.docker.com/u/bitnamilegacy).
 
 ## Why use a non-root container?
 
@@ -213,9 +208,7 @@ docker run -d --name sonarqube \
 | `SONARQUBE_WEB_CONTEXT`                 | SonarQube prefix used to access to the application.                                                                                                    | `/`                                                 |
 | `SONARQUBE_MAX_HEAP_SIZE`               | Maximum heap size for SonarQube services (CE, Search and Web).                                                                                         | `nil`                                               |
 | `SONARQUBE_MIN_HEAP_SIZE`               | Minimum heap size for SonarQube services (CE, Search and Web).                                                                                         | `nil`                                               |
-| `SONARQUBE_CE_JAVA_ADD_OPTS`            | Additional Java options for Compute Engine.                                                                                                            | `nil`                                               |
 | `SONARQUBE_ELASTICSEARCH_JAVA_ADD_OPTS` | Additional Java options for Elasticsearch.                                                                                                             | `nil`                                               |
-| `SONARQUBE_WEB_JAVA_ADD_OPTS`           | Additional Java options for Web.                                                                                                                       | `nil`                                               |
 | `SONARQUBE_EXTRA_PROPERTIES`            | Comma separated list of properties to be set in the sonar.properties file, e.g. `my.sonar.property1=property_value,my.sonar.property2=property_value`. | `nil`                                               |
 | `SONARQUBE_USERNAME`                    | SonarQube user name.                                                                                                                                   | `admin`                                             |
 | `SONARQUBE_PASSWORD`                    | SonarQube user password.                                                                                                                               | `bitnami`                                           |
@@ -233,24 +226,26 @@ docker run -d --name sonarqube \
 
 #### Read-only environment variables
 
-| Name                              | Description                                          | Value                                      |
-|-----------------------------------|------------------------------------------------------|--------------------------------------------|
-| `SONARQUBE_BASE_DIR`              | SonarQube installation directory.                    | `${BITNAMI_ROOT_DIR}/sonarqube`            |
-| `SONARQUBE_DATA_DIR`              | Directory for SonarQube data files.                  | `${SONARQUBE_BASE_DIR}/data`               |
-| `SONARQUBE_EXTENSIONS_DIR`        | Directory for SonarQube extensions.                  | `${SONARQUBE_BASE_DIR}/extensions`         |
-| `SONARQUBE_CONF_DIR`              | Directory for SonarQube configuration files.         | `${SONARQUBE_BASE_DIR}/conf`               |
-| `SONARQUBE_CONF_FILE`             | Configuration file for SonarQube.                    | `${SONARQUBE_CONF_DIR}/sonar.properties`   |
-| `SONARQUBE_LOGS_DIR`              | Directory for SonarQube log files.                   | `${SONARQUBE_BASE_DIR}/logs`               |
-| `SONARQUBE_LOG_FILE`              | SonarQube log file.                                  | `${SONARQUBE_LOGS_DIR}/sonar.log`          |
-| `SONARQUBE_TMP_DIR`               | Directory for SonarQube temporary files.             | `${SONARQUBE_BASE_DIR}/temp`               |
-| `SONARQUBE_PID_FILE`              | SonarQube PID file.                                  | `${SONARQUBE_BASE_DIR}/pids/SonarQube.pid` |
-| `SONARQUBE_BIN_DIR`               | SonarQube directory for binary executables.          | `${SONARQUBE_BASE_DIR}/bin/linux-x86-64`   |
-| `SONARQUBE_VOLUME_DIR`            | SonarQube directory for mounted configuration files. | `${BITNAMI_VOLUME_DIR}/sonarqube`          |
-| `SONARQUBE_DAEMON_USER`           | SonarQube system user.                               | `sonarqube`                                |
-| `SONARQUBE_DAEMON_USER_ID`        | SonarQube system user ID.                            | `1001`                                     |
-| `SONARQUBE_DAEMON_GROUP`          | SonarQube system group.                              | `sonarqube`                                |
-| `SONARQUBE_DAEMON_GROUP_ID`       | SonarQube system group.                              | `1001`                                     |
-| `SONARQUBE_DEFAULT_DATABASE_HOST` | Default database server host.                        | `postgresql`                               |
+| Name                              | Description                                          | Value                                                     |
+|-----------------------------------|------------------------------------------------------|-----------------------------------------------------------|
+| `SONARQUBE_BASE_DIR`              | SonarQube installation directory.                    | `${BITNAMI_ROOT_DIR}/sonarqube`                           |
+| `SONARQUBE_DATA_DIR`              | Directory for SonarQube data files.                  | `${SONARQUBE_BASE_DIR}/data`                              |
+| `SONARQUBE_EXTENSIONS_DIR`        | Directory for SonarQube extensions.                  | `${SONARQUBE_BASE_DIR}/extensions`                        |
+| `SONARQUBE_CONF_DIR`              | Directory for SonarQube configuration files.         | `${SONARQUBE_BASE_DIR}/conf`                              |
+| `SONARQUBE_CONF_FILE`             | Configuration file for SonarQube.                    | `${SONARQUBE_CONF_DIR}/sonar.properties`                  |
+| `SONARQUBE_LOGS_DIR`              | Directory for SonarQube log files.                   | `${SONARQUBE_BASE_DIR}/logs`                              |
+| `SONARQUBE_LOG_FILE`              | SonarQube log file.                                  | `${SONARQUBE_LOGS_DIR}/sonar.log`                         |
+| `SONARQUBE_TMP_DIR`               | Directory for SonarQube temporary files.             | `${SONARQUBE_BASE_DIR}/temp`                              |
+| `SONARQUBE_PID_FILE`              | SonarQube PID file.                                  | `${SONARQUBE_BASE_DIR}/pids/SonarQube.pid`                |
+| `SONARQUBE_BIN_DIR`               | SonarQube directory for binary executables.          | `${SONARQUBE_BASE_DIR}/bin/linux-x86-64`                  |
+| `SONARQUBE_VOLUME_DIR`            | SonarQube directory for mounted configuration files. | `${BITNAMI_VOLUME_DIR}/sonarqube`                         |
+| `SONARQUBE_DAEMON_USER`           | SonarQube system user.                               | `sonarqube`                                               |
+| `SONARQUBE_DAEMON_USER_ID`        | SonarQube system user ID.                            | `1001`                                                    |
+| `SONARQUBE_DAEMON_GROUP`          | SonarQube system group.                              | `sonarqube`                                               |
+| `SONARQUBE_DAEMON_GROUP_ID`       | SonarQube system group.                              | `1001`                                                    |
+| `SONARQUBE_CE_JAVA_ADD_OPTS`      | Additional Java options for Compute Engine.          | `${SONARQUBE_CE_JAVA_ADD_OPTS:-} ${JAVA_TOOL_OPTIONS:-}`  |
+| `SONARQUBE_WEB_JAVA_ADD_OPTS`     | Additional Java options for Web.                     | `${SONARQUBE_WEB_JAVA_ADD_OPTS:-} ${JAVA_TOOL_OPTIONS:-}` |
+| `SONARQUBE_DEFAULT_DATABASE_HOST` | Default database server host.                        | `postgresql`                                              |
 
 When you start the SonarQube&trade; image, you can adjust the configuration of the instance by passing one or more environment variables either on the docker-compose file or on the `docker run` command line. If you want to add a new environment variable:
 
@@ -350,7 +345,7 @@ In case the database already contains data from a previous SonarQube&trade; inst
 
 ### FIPS configuration in Bitnami Secure Images
 
-The Bitnami SonarQube&trade; Docker image from the [Bitnami Secure Images](https://www.arrow.com/globalecs/uk/products/bitnami-secure-images/) catalog includes extra features and settings to configure the container with FIPS capabilities. You can configure the next environment variables:
+The Bitnami SonarQube&trade; Docker image from the [Bitnami Secure Images](https://go-vmware.broadcom.com/contact-us) catalog includes extra features and settings to configure the container with FIPS capabilities. You can configure the next environment variables:
 
 - `OPENSSL_FIPS`: whether OpenSSL runs in FIPS mode or not. `yes` (default), `no`.
 
@@ -480,7 +475,7 @@ If you encountered a problem running this container, you can file an [issue](htt
 
 ## License
 
-Copyright &copy; 2025 Broadcom. The term "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.
+Copyright &copy; 2026 Broadcom. The term "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

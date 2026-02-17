@@ -8,13 +8,13 @@ ARG JAVA_EXTRA_SECURITY_DIR="/bitnami/java/extra-security"
 ARG TARGETARCH
 
 LABEL org.opencontainers.image.base.name="docker.io/bitnami/minideb:bookworm" \
-      org.opencontainers.image.created="2025-09-26T08:33:00Z" \
+      org.opencontainers.image.created="2026-01-28T15:00:15Z" \
       org.opencontainers.image.description="Application packaged by Broadcom, Inc." \
       org.opencontainers.image.documentation="https://github.com/bitnami/containers/tree/main/bitnami/java/README.md" \
       org.opencontainers.image.source="https://github.com/bitnami/containers/tree/main/bitnami/java" \
       org.opencontainers.image.title="java" \
       org.opencontainers.image.vendor="Broadcom, Inc." \
-      org.opencontainers.image.version="25.0.0-37"
+      org.opencontainers.image.version="25.0.2-12"
 
 ENV OS_ARCH="${TARGETARCH:-amd64}" \
     OS_FLAVOUR="debian-12" \
@@ -28,7 +28,7 @@ RUN --mount=type=secret,id=downloads_url,env=SECRET_DOWNLOADS_URL \
     DOWNLOADS_URL=${SECRET_DOWNLOADS_URL:-${DOWNLOADS_URL}} ; \
     mkdir -p /tmp/bitnami/pkg/cache/ ; cd /tmp/bitnami/pkg/cache/ || exit 1 ; \
     COMPONENTS=( \
-      "java-25.0.0-37-1-linux-${OS_ARCH}-debian-12" \
+      "java-25.0.2-12-0-linux-${OS_ARCH}-debian-12" \
     ) ; \
     for COMPONENT in "${COMPONENTS[@]}"; do \
       if [ ! -f "${COMPONENT}.tar.gz" ]; then \
@@ -45,17 +45,14 @@ RUN find / -perm /6000 -type f -exec chmod a-s {} \; || true
 RUN update-locale LANG=C.UTF-8 LC_MESSAGES=POSIX && \
     DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales && \
     echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
+RUN /opt/bitnami/scripts/locales/generate-locales.sh
 RUN sed -i 's/^PASS_MAX_DAYS.*/PASS_MAX_DAYS    90/' /etc/login.defs && \
     sed -i 's/^PASS_MIN_DAYS.*/PASS_MIN_DAYS    0/' /etc/login.defs && \
     sed -i 's/sha512/sha512 minlen=8/' /etc/pam.d/common-password
 
 COPY rootfs /
-RUN update-locale LANG=C.UTF-8 LC_MESSAGES=POSIX && \
-    DEBIAN_FRONTEND=noninteractive dpkg-reconfigure locales && \
-    echo 'en_US.UTF-8 UTF-8' >> /etc/locale.gen
-RUN /opt/bitnami/scripts/locales/generate-locales.sh
 RUN /opt/bitnami/scripts/java/postunpack.sh
-ENV APP_VERSION="25.0.0-37" \
+ENV APP_VERSION="25.0.2-12" \
     BITNAMI_APP_NAME="java" \
     IMAGE_REVISION="1" \
     JAVA_HOME="/opt/bitnami/java" \

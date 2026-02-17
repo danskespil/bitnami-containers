@@ -15,27 +15,22 @@ docker run --name elasticsearch bitnami/elasticsearch:latest
 
 You can find the available configuration options in the [Environment Variables](#environment-variables) section.
 
-## ⚠️ Important Notice: Upcoming changes to the Bitnami Catalog
-
-Beginning August 28th, 2025, Bitnami will evolve its public catalog to offer a curated set of hardened, security-focused images under the new [Bitnami Secure Images initiative](https://news.broadcom.com/app-dev/broadcom-introduces-bitnami-secure-images-for-production-ready-containerized-applications). As part of this transition:
-
-- Granting community users access for the first time to security-optimized versions of popular container images.
-- Bitnami will begin deprecating support for non-hardened, Debian-based software images in its free tier and will gradually remove non-latest tags from the public catalog. As a result, community users will have access to a reduced number of hardened images. These images are published only under the “latest” tag and are intended for development purposes
-- Starting August 28th, over two weeks, all existing container images, including older or versioned tags (e.g., 2.50.0, 10.6), will be migrated from the public catalog (docker.io/bitnami) to the “Bitnami Legacy” repository (docker.io/bitnamilegacy), where they will no longer receive updates.
-- For production workloads and long-term support, users are encouraged to adopt Bitnami Secure Images, which include hardened containers, smaller attack surfaces, CVE transparency (via VEX/KEV), SBOMs, and enterprise support.
-
-These changes aim to improve the security posture of all Bitnami users by promoting best practices for software supply chain integrity and up-to-date deployments. For more details, visit the [Bitnami Secure Images announcement](https://github.com/bitnami/containers/issues/83267).
-
 ## Why use Bitnami Secure Images?
 
-- Bitnami Secure Images and Helm charts are built to make open source more secure and enterprise ready.
-- Triage security vulnerabilities faster, with transparency into CVE risks using industry standard Vulnerability Exploitability Exchange (VEX), KEV, and EPSS scores.
-- Our hardened images use a minimal OS (Photon Linux), which reduces the attack surface while maintaining extensibility through the use of an industry standard package format.
-- Stay more secure and compliant with continuously built images updated within hours of upstream patches.
-- Bitnami containers, virtual machines and cloud images use the same components and configuration approach - making it easy to switch between formats based on your project needs.
-- Hardened images come with attestation signatures (Notation), SBOMs, virus scan reports and other metadata produced in an SLSA-3 compliant software factory.
+Those are hardened, minimal CVE images built and maintained by Bitnami. Bitnami Secure Images are based on the cloud-optimized, security-hardened enterprise [OS Photon Linux](https://vmware.github.io/photon/). Why choose BSI images?
 
-Only a subset of BSI applications are available for free. Looking to access the entire catalog of applications as well as enterprise support? Try the [commercial edition of Bitnami Secure Images today](https://www.arrow.com/globalecs/uk/products/bitnami-secure-images/).
+- Hardened secure images of popular open source software with Near-Zero Vulnerabilities
+- Vulnerability Triage & Prioritization with VEX Statements, KEV and EPSS Scores
+- Compliance focus with FIPS, STIG, and air-gap options, including secure bill of materials (SBOM)
+- Software supply chain provenance attestation through in-toto
+- First class support for the internet’s favorite Helm charts
+
+Each image comes with valuable security metadata. You can view the metadata in [our public catalog here](https://app-catalog.vmware.com/bitnami/apps). Note: Some data is only available with [commercial subscriptions to BSI](https://bitnami.com/).
+
+![Alt text](https://github.com/bitnami/containers/blob/main/BSI%20UI%201.png?raw=true "Application details")
+![Alt text](https://github.com/bitnami/containers/blob/main/BSI%20UI%202.png?raw=true "Packaging report")
+
+If you are looking for our previous generation of images based on Debian Linux, please see the [Bitnami Legacy registry](https://hub.docker.com/u/bitnamilegacy).
 
 ## How to deploy Elasticsearch in Kubernetes?
 
@@ -48,10 +43,6 @@ Non-root container images add an extra layer of security and are generally recom
 ## Supported tags and respective `Dockerfile` links
 
 Learn more about the Bitnami tagging policy and the difference between rolling tags and immutable tags [in our documentation page](https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-understand-rolling-tags-containers-index.html).
-
-You can see the equivalence between the different tags by taking a look at the `tags-info.yaml` file present in the branch folder, i.e `bitnami/ASSET/BRANCH/DISTRO/tags-info.yaml`.
-
-Subscribe to project updates by watching the [bitnami/containers GitHub repo](https://github.com/bitnami/containers).
 
 ## Get this image
 
@@ -246,31 +237,36 @@ docker-compose up -d
 | `ELASTICSEARCH_HTTP_TLS_NODE_KEY_LOCATION`        | Path to PEM node key for HTTP TLS.                                                                                     | `$DB_NODE_KEY_LOCATION`                        |
 | `ELASTICSEARCH_HTTP_TLS_CA_CERT_LOCATION`         | Path to CA certificate for HTTP TLS.                                                                                   | `$DB_CA_CERT_LOCATION`                         |
 | `ELASTICSEARCH_ENABLE_FIPS_MODE`                  | Enables FIPS mode of operation                                                                                         | `false`                                        |
+| `ELASTICSEARCH_PASSWD_HASH_ALGORITHM`             | Password hashing algorithm                                                                                             | `nil`                                          |
 | `ELASTICSEARCH_KEYS`                              | Comma-separated list of key=value to be added to the Elasticsearch keystore                                            | `nil`                                          |
+| `ES_JAVA_HOME`                                    | Elasticsearch supported Java installation folder.                                                                      | `${JAVA_HOME}`                                 |
 
 #### Read-only environment variables
 
-| Name                                | Description                                                     | Value                              |
-|-------------------------------------|-----------------------------------------------------------------|------------------------------------|
-| `DB_FLAVOR`                         | Database flavor. Valid values: `elasticsearch` or `opensearch`. | `elasticsearch`                    |
-| `ELASTICSEARCH_VOLUME_DIR`          | Persistence base directory                                      | `/bitnami/elasticsearch`           |
-| `ELASTICSEARCH_BASE_DIR`            | Elasticsearch installation directory                            | `/opt/bitnami/elasticsearch`       |
-| `ELASTICSEARCH_CONF_DIR`            | Elasticsearch configuration directory                           | `${DB_BASE_DIR}/config`            |
-| `ELASTICSEARCH_DEFAULT_CONF_DIR`    | Elasticsearch default configuration directory                   | `${DB_BASE_DIR}/config.default`    |
-| `ELASTICSEARCH_LOGS_DIR`            | Elasticsearch logs directory                                    | `${DB_BASE_DIR}/logs`              |
-| `ELASTICSEARCH_PLUGINS_DIR`         | Elasticsearch plugins directory                                 | `${DB_BASE_DIR}/plugins`           |
-| `ELASTICSEARCH_DEFAULT_PLUGINS_DIR` | Elasticsearch default plugins directory                         | `${DB_BASE_DIR}/plugins.default`   |
-| `ELASTICSEARCH_DATA_DIR`            | Elasticsearch data directory                                    | `${DB_VOLUME_DIR}/data`            |
-| `ELASTICSEARCH_TMP_DIR`             | Elasticsearch temporary directory                               | `${DB_BASE_DIR}/tmp`               |
-| `ELASTICSEARCH_BIN_DIR`             | Elasticsearch executables directory                             | `${DB_BASE_DIR}/bin`               |
-| `ELASTICSEARCH_MOUNTED_PLUGINS_DIR` | Directory where plugins are mounted                             | `${DB_VOLUME_DIR}/plugins`         |
-| `ELASTICSEARCH_CONF_FILE`           | Path to Elasticsearch configuration file                        | `${DB_CONF_DIR}/elasticsearch.yml` |
-| `ELASTICSEARCH_LOG_FILE`            | Path to the Elasticsearch log file                              | `${DB_LOGS_DIR}/elasticsearch.log` |
-| `ELASTICSEARCH_PID_FILE`            | Path to the Elasticsearch pid file                              | `${DB_TMP_DIR}/elasticsearch.pid`  |
-| `ELASTICSEARCH_INITSCRIPTS_DIR`     | Path to the Elasticsearch container init scripts directory      | `/docker-entrypoint-initdb.d`      |
-| `ELASTICSEARCH_DAEMON_USER`         | Elasticsearch system user                                       | `elasticsearch`                    |
-| `ELASTICSEARCH_DAEMON_GROUP`        | Elasticsearch system group                                      | `elasticsearch`                    |
-| `ELASTICSEARCH_USERNAME`            | Username of the Elasticsearch superuser.                        | `elastic`                          |
+| Name                                | Description                                                     | Value                                       |
+|-------------------------------------|-----------------------------------------------------------------|---------------------------------------------|
+| `DB_FLAVOR`                         | Database flavor. Valid values: `elasticsearch` or `opensearch`. | `elasticsearch`                             |
+| `ELASTICSEARCH_VOLUME_DIR`          | Persistence base directory                                      | `/bitnami/elasticsearch`                    |
+| `ELASTICSEARCH_BASE_DIR`            | Elasticsearch installation directory                            | `/opt/bitnami/elasticsearch`                |
+| `ELASTICSEARCH_CONF_DIR`            | Elasticsearch configuration directory                           | `${DB_BASE_DIR}/config`                     |
+| `ELASTICSEARCH_DEFAULT_CONF_DIR`    | Elasticsearch default configuration directory                   | `${DB_BASE_DIR}/config.default`             |
+| `ELASTICSEARCH_LOGS_DIR`            | Elasticsearch logs directory                                    | `${DB_BASE_DIR}/logs`                       |
+| `ELASTICSEARCH_PLUGINS_DIR`         | Elasticsearch plugins directory                                 | `${DB_BASE_DIR}/plugins`                    |
+| `ELASTICSEARCH_DEFAULT_PLUGINS_DIR` | Elasticsearch default plugins directory                         | `${DB_BASE_DIR}/plugins.default`            |
+| `ELASTICSEARCH_DATA_DIR`            | Elasticsearch data directory                                    | `${DB_VOLUME_DIR}/data`                     |
+| `ELASTICSEARCH_TMP_DIR`             | Elasticsearch temporary directory                               | `${DB_BASE_DIR}/tmp`                        |
+| `ELASTICSEARCH_BIN_DIR`             | Elasticsearch executables directory                             | `${DB_BASE_DIR}/bin`                        |
+| `ELASTICSEARCH_MOUNTED_PLUGINS_DIR` | Directory where plugins are mounted                             | `${DB_VOLUME_DIR}/plugins`                  |
+| `ELASTICSEARCH_CONF_FILE`           | Path to Elasticsearch configuration file                        | `${DB_CONF_DIR}/elasticsearch.yml`          |
+| `ELASTICSEARCH_LOG_FILE`            | Path to the Elasticsearch log file                              | `${DB_LOGS_DIR}/elasticsearch.log`          |
+| `ELASTICSEARCH_PID_FILE`            | Path to the Elasticsearch pid file                              | `${DB_TMP_DIR}/elasticsearch.pid`           |
+| `ELASTICSEARCH_INITSCRIPTS_DIR`     | Path to the Elasticsearch container init scripts directory      | `/docker-entrypoint-initdb.d`               |
+| `ELASTICSEARCH_DAEMON_USER`         | Elasticsearch system user                                       | `elasticsearch`                             |
+| `ELASTICSEARCH_DAEMON_GROUP`        | Elasticsearch system group                                      | `elasticsearch`                             |
+| `ELASTICSEARCH_USERNAME`            | Username of the Elasticsearch superuser.                        | `elastic`                                   |
+| `JAVA_HOME`                         | Java installation folder.                                       | `${BITNAMI_ROOT_DIR}/java`                  |
+| `ES_JAVA_OPTS`                      | Elasticsearch supported Java options.                           | `${ES_JAVA_OPTS:-} ${JAVA_TOOL_OPTIONS:-}`  |
+| `CLI_JAVA_OPTS`                     | Elasticsearch CLI supported Java options.                       | `${CLI_JAVA_OPTS:-} ${JAVA_TOOL_OPTIONS:-}` |
 
 When you start the elasticsearch image, you can adjust the configuration of the instance by passing one or more environment variables either on the docker-compose file or on the `docker run` command line. If you want to add a new environment variable:
 
@@ -413,7 +409,7 @@ In order to have your custom files inside the Docker image, you can mount them a
 
 ### FIPS configuration in Bitnami Secure Images
 
-The Bitnami Elasticsearch Docker image from the [Bitnami Secure Images](https://www.arrow.com/globalecs/uk/products/bitnami-secure-images/) catalog includes extra features and settings to configure the container with FIPS capabilities. You can configure the next environment variables:
+The Bitnami Elasticsearch Docker image from the [Bitnami Secure Images](https://go-vmware.broadcom.com/contact-us) catalog includes extra features and settings to configure the container with FIPS capabilities. You can configure the next environment variables:
 
 - `OPENSSL_FIPS`: whether OpenSSL runs in FIPS mode or not. `yes` (default), `no`.
 
@@ -567,7 +563,7 @@ If you encountered a problem running this container, you can file an [issue](htt
 
 ## License
 
-Copyright &copy; 2025 Broadcom. The term "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.
+Copyright &copy; 2026 Broadcom. The term "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
